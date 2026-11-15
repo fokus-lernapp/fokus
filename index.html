@@ -7469,10 +7469,13 @@ async function requestAIText(history,options = {}){
           ...msgs
         ]
       };
-    } else {
-      if (!/chat\/completions\/?$/.test(endpoint)) {
-        endpoint = endpoint.replace(/\/$/,"") + "/chat/completions";
-      }
+    }endpoint = endpoint.replace(/\/+$/, "");
+
+if (!/\/v1$/.test(endpoint)) {
+  endpoint += "/v1";
+}
+
+endpoint += "/chat/completions";
       headers.Authorization = `Bearer ${getAISecret()}`;
       payload = {
         model:state.ai.model,
